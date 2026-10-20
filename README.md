@@ -247,8 +247,8 @@ The admin opens **Reports**, picks a report, views it on screen or downloads a C
 ### 1. Get the code
 
 ```bash
-git clone https://github.com/<your-username>/<your-repo>.git
-cd <your-repo>
+https://github.com/xn3ha/dics-dormitory-system.git
+cd dics-dormitory-system
 ```
 *(Or download the ZIP from GitHub, unzip it, and open a terminal in the folder that contains `app.py`.)*
 
