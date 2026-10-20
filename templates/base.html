@@ -1,0 +1,16 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}DICS{% endblock %} · Dormitory Information and Control System</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head><body>
+{% if me %}<header><div class="bar"><a class="brand" href="{{ url_for('dashboard') }}">DICS</a>
+<a class="nav" href="{{ url_for('dashboard') }}">Dashboard</a>
+{% if me.role in ('admin','warden') %}<a class="nav" href="{{ url_for('residents') }}">Residents</a>
+<a class="nav" href="{{ url_for('rooms') }}">Rooms</a><a class="nav" href="{{ url_for('allocate') }}">Allocation</a>{% endif %}
+<a class="nav" href="{{ url_for('complaints') }}">Complaints</a>
+<a class="nav" href="{{ url_for('maintenance') }}">Maintenance</a>
+{% if me.role=='admin' %}<a class="nav" href="{{ url_for('reports') }}">Reports</a>{% endif %}
+<span class="sp"></span><a class="nav" href="{{ url_for('profile') }}">{{ me.name }} <span class="who">({{ me.role }})</span></a>
+<form class="inline" method="post" action="{{ url_for('logout') }}">{{ tok }}<button class="btn sec sm">Log out</button></form>
+</div></header>{% endif %}
+<main>{% for cat,m in get_flashed_messages(with_categories=true) %}<div class="flash {{ cat }}">{{ m }}</div>{% endfor %}
+{% block body %}{% endblock %}</main></body></html>

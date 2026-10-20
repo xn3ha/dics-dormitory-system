@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block title %}Room allocation{% endblock %}{% block body %}<h1>Allocate / reallocate room</h1>
+<div class="card" style="max-width:520px"><form method="post">{{ tok }}
+<label>Resident</label><select name="resident" required>{% for r in residents %}
+<option value="{{ r.userId }}">{{ r.name }} — {{ (r.block ~ '-' ~ r.roomNo) if r.roomNo else 'unassigned' }}</option>{% endfor %}</select>
+<label>Room (only rooms with space)</label><select name="room" required>{% for r in rooms %}
+<option value="{{ r.roomId }}">{{ r.block }}-{{ r.roomNo }} ({{ r.currentOccupancy }}/{{ r.capacity }})</option>{% endfor %}</select>
+<p><button class="btn">Assign</button></p></form></div>
+{% if not residents %}<p class="mute">No approved residents yet.</p>{% endif %}{% endblock %}

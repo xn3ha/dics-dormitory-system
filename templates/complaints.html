@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block title %}Complaints{% endblock %}{% block body %}<h1>Complaints</h1>
+{% if me.role=='resident' %}<div class="card"><form method="post">{{ tok }}<label>Describe your complaint</label>
+<textarea name="description" required></textarea><p><button class="btn">Submit</button></p></form></div>{% endif %}
+<div class="tw"><table><tr><th>#</th>{% if me.role!='resident' %}<th>Resident</th>{% endif %}<th>Complaint</th><th>Date</th><th>Status</th><th>Response</th><th></th></tr>
+{% for c in rows %}<tr><td>{{ c.complaintId }}</td>{% if me.role!='resident' %}<td>{{ c.name }}</td>{% endif %}<td>{{ c.description }}</td><td>{{ c.createdDate }}</td>
+{% if me.role=='resident' %}<td><span class="tag {{ c.status|replace(' ','') }}">{{ c.status }}</span></td><td>{{ c.response or '—' }}</td><td>{% if c.status=='open' %}<details><summary class="btn sec sm">Edit</summary><form method="post" action="{{ url_for('complaint_edit',cid=c.complaintId) }}">{{ tok }}<textarea name="description" required>{{ c.description }}</textarea><button class="btn sm">Save</button></form></details> <form class="inline" method="post" action="{{ url_for('complaint_delete',cid=c.complaintId) }}" onsubmit="return confirm('Delete?')">{{ tok }}<button class="btn bad sm">Delete</button></form>{% endif %}</td>
+{% else %}<td colspan="2"><form method="post" action="{{ url_for('complaint_update',cid=c.complaintId) }}" class="row">{{ tok }}
+<select name="status" style="width:auto">{% for s in statuses %}<option {{ 'selected' if s==c.status }}>{{ s }}</option>{% endfor %}</select>
+<input name="response" value="{{ c.response }}" placeholder="Response" style="flex:1;min-width:140px"><button class="btn sm">Save</button></form></td><td><form class="inline" method="post" action="{{ url_for('complaint_delete',cid=c.complaintId) }}" onsubmit="return confirm('Delete?')">{{ tok }}<button class="btn bad sm">Delete</button></form></td>{% endif %}</tr>
+{% else %}<tr><td colspan="6" class="mute">No complaints.</td></tr>{% endfor %}</table></div>{% endblock %}

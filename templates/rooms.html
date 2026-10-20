@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block title %}Rooms{% endblock %}{% block body %}
+<div class="row"><h1 style="flex:1">Rooms</h1>{% if me.role=='admin' %}<a class="btn" href="{{ url_for('room_form') }}">Add room</a>{% endif %}</div>
+<div class="tw"><table><tr><th>Block</th><th>Room</th><th>Floor</th><th>Occupancy</th><th></th>{% if me.role=='admin' %}<th></th>{% endif %}</tr>
+{% for r in rows %}<tr><td>{{ r.block }}</td><td>{{ r.roomNo }}</td><td>{{ r.floor }}</td><td>{{ r.currentOccupancy }}/{{ r.capacity }}</td>
+<td><div class="bar-o"><i style="width:{{ (100*r.currentOccupancy/r.capacity)|round|int }}%"></i></div></td>
+{% if me.role=='admin' %}<td class="row"><a class="btn sec sm" href="{{ url_for('room_form',rid=r.roomId) }}">Edit</a>
+<form class="inline" method="post" action="{{ url_for('room_delete',rid=r.roomId) }}" onsubmit="return confirm('Delete room?')">{{ tok }}<button class="btn bad sm">Delete</button></form></td>{% endif %}</tr>
+{% else %}<tr><td colspan="6" class="mute">No rooms.</td></tr>{% endfor %}</table></div>{% endblock %}

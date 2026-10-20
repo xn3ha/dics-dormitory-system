@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block title %}Room{% endblock %}{% block body %}<h1>{{ 'Edit' if room else 'New' }} room</h1>
+<div class="card" style="max-width:420px"><form method="post">{{ tok }}
+<label>Block</label><input name="block" value="{{ room.block if room }}" required>
+<label>Room number</label><input name="roomNo" value="{{ room.roomNo if room }}" required>
+<label>Floor</label><input name="floor" type="number" value="{{ room.floor if room }}" required>
+<label>Capacity</label><input name="capacity" type="number" min="1" value="{{ room.capacity if room }}" required>
+<p><button class="btn">Save</button> <a href="{{ url_for('rooms') }}">Cancel</a></p></form></div>{% endblock %}

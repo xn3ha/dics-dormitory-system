@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block title %}Residents{% endblock %}{% block body %}<div class="row"><h1 style="flex:1">Residents</h1><a class="btn" href="{{ url_for('resident_form') }}">Add resident</a></div>
+<div class="tw"><table><tr><th>Name</th><th>Email</th><th>Phone</th><th>Room</th><th>Status</th><th></th></tr>
+{% for r in rows %}<tr><td>{{ r.name }}</td><td>{{ r.email }}</td><td>{{ r.phone }}</td>
+<td>{% if r.roomNo %}{{ r.block }}-{{ r.roomNo }}{% else %}—{% endif %}</td><td><span class="tag {{ r.registrationStatus }}">{{ r.registrationStatus }}</span></td>
+<td class="row"><a class="btn sec sm" href="{{ url_for('resident_form',uid=r.userId) }}">Edit</a>
+{% if me.role=='admin' %}
+{% if r.registrationStatus!='approved' %}<form class="inline" method="post" action="{{ url_for('resident_decision',uid=r.userId,action='approve') }}">{{ tok }}<button class="btn sm">Approve</button></form>{% endif %}
+{% if r.registrationStatus!='rejected' %}<form class="inline" method="post" action="{{ url_for('resident_decision',uid=r.userId,action='reject') }}">{{ tok }}<button class="btn sec sm">Reject</button></form>{% endif %}{% endif %}
+{% if r.roomNo %}<form class="inline" method="post" action="{{ url_for('resident_unassign',uid=r.userId) }}">{{ tok }}<button class="btn sec sm">Unassign room</button></form>{% endif %}
+{% if me.role=='admin' %}<form class="inline" method="post" action="{{ url_for('resident_delete',uid=r.userId) }}" onsubmit="return confirm('Delete this resident and all their complaints/requests?')">{{ tok }}<button class="btn bad sm">Delete</button></form>{% endif %}
+</td></tr>{% else %}<tr><td colspan="6" class="mute">No residents yet.</td></tr>{% endfor %}</table></div>{% endblock %}

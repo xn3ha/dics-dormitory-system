@@ -1,0 +1,6 @@
+{% extends "base.html" %}{% block title %}Log in{% endblock %}{% block body %}
+<div class="card auth"><h1>Dormitory Information and Control System</h1>
+<form method="post">{{ tok }}<label>Email</label><input name="email" type="email" required autofocus>
+<label>Password</label><input name="password" type="password" required><p><button class="btn">Log in</button></p></form>
+<p class="mute">New resident? <a href="{{ url_for('register') }}">Register</a></p>
+<p class="mute" style="font-size:12px">Demo: admin@dics.local / admin123 · warden@dics.local / warden123</p></div>{% endblock %}

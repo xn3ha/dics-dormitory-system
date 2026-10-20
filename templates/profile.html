@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block title %}Profile{% endblock %}{% block body %}
+<h1>My profile</h1><div class="card" style="max-width:460px"><form method="post">{{ tok }}
+<label>Name</label><input name="name" value="{{ me.name }}" required>
+<label>Email</label><input value="{{ me.email }}" disabled>
+<label>Phone</label><input name="phone" value="{{ me.phone }}">
+<label>New password (leave blank to keep)</label><input name="password" type="password">
+<p><button class="btn">Save</button></p></form></div>{% endblock %}

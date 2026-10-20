@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block title %}{{ title }}{% endblock %}{% block body %}
+<div class="row"><h1 style="flex:1">{{ title }}</h1><a class="btn sm" href="{{ url_for('report',kind=kind,format='csv') }}">Download CSV</a>
+<a class="btn sec sm" href="{{ url_for('reports') }}">Back</a></div>
+<div class="tw"><table><tr>{% for c in cols %}<th>{{ c }}</th>{% endfor %}</tr>
+{% for r in rows %}<tr>{% for v in r %}<td>{{ v }}</td>{% endfor %}</tr>{% else %}<tr><td class="mute">No data.</td></tr>{% endfor %}</table></div>{% endblock %}

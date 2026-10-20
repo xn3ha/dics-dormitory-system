@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block title %}Register{% endblock %}{% block body %}
+<div class="card auth"><h1>Resident registration</h1>
+<form method="post">{{ tok }}<label>Full name</label><input name="name" required>
+<label>Email</label><input name="email" type="email" required><label>Phone</label><input name="phone">
+<label>Password (min 6)</label><input name="password" type="password" minlength="6" required>
+<p><button class="btn">Register</button> <a href="{{ url_for('login') }}">Cancel</a></p></form>
+<p class="mute">An administrator must approve your registration before you can log in.</p></div>{% endblock %}

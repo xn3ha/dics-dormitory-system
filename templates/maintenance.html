@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% block title %}Maintenance{% endblock %}{% block body %}<h1>Maintenance requests</h1>
+{% if me.role=='resident' %}<div class="card"><form method="post">{{ tok }}<label>Category</label>
+<select name="category">{% for c in categories %}<option>{{ c }}</option>{% endfor %}</select>
+<label>Description</label><textarea name="description" required></textarea><p><button class="btn">Submit request</button></p></form></div>{% endif %}
+<div class="tw"><table><tr><th>#</th>{% if me.role!='resident' %}<th>Resident</th>{% endif %}<th>Category</th><th>Description</th><th>Date</th><th>Status</th><th></th></tr>
+{% for m in rows %}<tr><td>{{ m.requestId }}</td>{% if me.role!='resident' %}<td>{{ m.name }}</td>{% endif %}<td>{{ m.category }}</td><td>{{ m.description }}</td><td>{{ m.createdDate }}</td>
+<td>{% if me.role=='resident' %}<span class="tag {{ m.status|replace(' ','') }}">{{ m.status }}</span>
+{% else %}<form method="post" action="{{ url_for('maintenance_update',rid=m.requestId) }}" class="row">{{ tok }}
+<select name="status" style="width:auto">{% for s in statuses %}<option {{ 'selected' if s==m.status }}>{{ s }}</option>{% endfor %}</select><button class="btn sm">Save</button></form>{% endif %}</td>
+<td>{% if me.role!='resident' or m.status=='open' %}<details><summary class="btn sec sm">Edit</summary><form method="post" action="{{ url_for('maintenance_edit',rid=m.requestId) }}">{{ tok }}
+<select name="category">{% for c in categories %}<option {{ 'selected' if c==m.category }}>{{ c }}</option>{% endfor %}</select><textarea name="description" required>{{ m.description }}</textarea><button class="btn sm">Save</button></form></details>
+<form class="inline" method="post" action="{{ url_for('maintenance_delete',rid=m.requestId) }}" onsubmit="return confirm('Delete?')">{{ tok }}<button class="btn bad sm">Delete</button></form>{% endif %}</td></tr>
+{% else %}<tr><td colspan="6" class="mute">No requests.</td></tr>{% endfor %}</table></div>{% endblock %}
